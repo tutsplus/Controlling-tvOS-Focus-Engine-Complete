@@ -21,5 +21,15 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func buttonWithTag(tag: Int) -> UIButton? {
+        for button in buttons {
+            if button.tag == tag {
+                return button
+            }
+        }
+        
+        return nil
+    }
 }
 
