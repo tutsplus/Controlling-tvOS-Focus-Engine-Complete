@@ -47,7 +47,35 @@ class ViewController: UIViewController {
         }
     }
     
+    override func didUpdateFocusInContext(context: UIFocusUpdateContext, withAnimationCoordinator coordinator: UIFocusAnimationCoordinator) {
+        super.didUpdateFocusInContext(context, withAnimationCoordinator: coordinator)
+        
+        if let focusedButton = context.previouslyFocusedView as? UIButton where buttons.contains(focusedButton) {
+            coordinator.addCoordinatedAnimations({ 
+                focusedButton.alpha = 0.5
+                
+                // Running custom timed animation
+                let duration = UIView.inheritedAnimationDuration()
+                UIView.animateWithDuration(duration/2.0, delay: 0.0, options: .OverrideInheritedDuration, animations: { 
+                    // Animations
+                }, completion: { (completed: Bool) in
+                    // Completion block
+                })
+            }, completion: {
+                // Run completed animation
+            })
+        }
+    }
+    
     override func shouldUpdateFocusInContext(context: UIFocusUpdateContext) -> Bool {
+        let focusedButton = context.previouslyFocusedView as? UIButton
+        
+        if focusedButton == buttonWithTag(2) || focusedButton == buttonWithTag(3) {
+            if context.focusHeading == .Down {
+                return false
+            }
+        }
+        
         return super.shouldUpdateFocusInContext(context)
     }
 
