@@ -16,6 +16,40 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        let rightButtonIds = [3, 6]
+        for buttonId in rightButtonIds {
+            if let button = buttonWithTag(buttonId) {
+                let focusGuide = UIFocusGuide()
+                view.addLayoutGuide(focusGuide)
+                focusGuide.widthAnchor.constraintEqualToAnchor(button.widthAnchor).active = true
+                focusGuide.heightAnchor.constraintEqualToAnchor(button.heightAnchor).active = true
+                focusGuide.leadingAnchor.constraintEqualToAnchor(button.trailingAnchor, constant: 60.0).active = true
+                focusGuide.centerYAnchor.constraintEqualToAnchor(button.centerYAnchor).active = true
+                focusGuide.preferredFocusedView = buttonWithTag(buttonId-2)
+            }
+        }
+        
+        let leftButtonIds = [1, 4]
+        for buttonId in leftButtonIds {
+            if let button = buttonWithTag(buttonId) {
+                let focusGuide = UIFocusGuide()
+                view.addLayoutGuide(focusGuide)
+                focusGuide.widthAnchor.constraintEqualToAnchor(button.widthAnchor).active = true
+                focusGuide.heightAnchor.constraintEqualToAnchor(button.heightAnchor).active = true
+                focusGuide.trailingAnchor.constraintEqualToAnchor(button.leadingAnchor, constant: -60.0).active = true
+                focusGuide.centerYAnchor.constraintEqualToAnchor(button.centerYAnchor).active = true
+                focusGuide.preferredFocusedView = buttonWithTag(buttonId+2)
+            }
+        }
+    }
+    
+    override func shouldUpdateFocusInContext(context: UIFocusUpdateContext) -> Bool {
+        return super.shouldUpdateFocusInContext(context)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
